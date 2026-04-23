@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abraham ❤️ Dhanya</title>
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('https://images.unsplash.com/photo-1529636798458-92182e662485') no-repeat center/cover;
+  color: white;
+  text-align: center;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.6);
+  min-height: 100vh;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 3em;
+  font-family: cursive;
+}
+
+h2 {
+  color: gold;
+}
+
+.details {
+  margin-top: 15px;
+  font-size: 1.2em;
+}
+
+.countdown {
+  font-size: 1.6em;
+  margin-top: 20px;
+  color: #ffcccb;
+}
+
+input {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  margin-top: 15px;
+}
+
+.rsvp-buttons button {
+  margin: 10px;
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  color: white;
+}
+
+.yes { background: #28a745; }
+.maybe { background: #ffc107; color:black; }
+.no { background: #dc3545; }
+
+.response {
+  margin-top: 15px;
+  font-size: 1.3em;
+  transition: all 0.3s ease;
+}
+
+img.couple {
+  width: 200px;
+  border-radius: 50%;
+  margin-top: 20px;
+  border: 3px solid white;
+}
+
+.qr img {
+  margin-top: 20px;
+  border-radius: 10px;
+}
+</style>
+
+</head>
+<body>
+
+<div class="overlay">
+
+<h1>Abraham ❤️ Dhanya</h1>
+<h2>We are getting married 💍</h2>
+
+<img class="couple" src="https://images.unsplash.com/photo-1519741497674-611481863552">
+
+<div class="details">
+<p><b>Date:</b> May 4, 2026</p>
+<p><b>Time:</b> 10:30 AM ⛪</p>
+<p><b>Venue:</b> St Sebastian's Church, Veetiyadi</p>
+</div>
+
+<div class="details">
+<p><b>Abraham Thomas</b></p>
+<p>Cheruvil</p>
+<p>Son of Thomas & Rosamma</p>
+
+<br>
+
+<p><b>Dhanya Joseph</b></p>
+<p>Vellamaruthumkal</p>
+<p>Daughter of Joseph & Rosamma</p>
+</div>
+
+<div class="countdown" id="countdown"></div>
+
+<h2>Will you join us? 😊</h2>
+
+<input type="text" id="name" placeholder="Enter your name">
+
+<div class="rsvp-buttons">
+<button class="yes" onclick="respond('attending')">🎉 Will Attend</button>
+<button class="maybe" onclick="respond('maybe')">🤔 Need to Check</button>
+<button class="no" onclick="respond('no')">😔 Not Attending</button>
+</div>
+
+<div class="response" id="response"></div>
+
+<div class="qr">
+<p>📍 Tap QR for location</p>
+<a href="https://maps.google.com/?q=St+Sebastian's+Church+Veetiyadi" target="_blank">
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.google.com/?q=St+Sebastian's+Church+Veetiyadi">
+</a>
+</div>
+
+</div>
+
+<script>
+// Countdown
+function updateCountdown() {
+  const weddingDate = new Date("2026-05-04T10:30:00");
+  const now = new Date();
+  const diff = weddingDate - now;
+
+  if (diff <= 0) {
+    document.getElementById("countdown").innerHTML = "It's Wedding Time! 🎊";
+    return;
+  }
+
+  const d = Math.floor(diff / (1000*60*60*24));
+  const h = Math.floor((diff/(1000*60*60))%24);
+  const m = Math.floor((diff/(1000*60))%60);
+  const s = Math.floor((diff/1000)%60);
+
+  document.getElementById("countdown").innerHTML =
+    `⏳ ${d} Days ${h} Hrs ${m} Min ${s} Sec`;
+}
+setInterval(updateCountdown, 1000);
+
+// RSVP Response
+function respond(type) {
+  const name = document.getElementById("name").value || "Dear Guest";
+  let msg = "";
+
+  if (type === "attending") {
+    msg = `🎉 Yay ${name}! We’re so excited to celebrate with you! ❤️💍`;
+    document.body.style.backgroundColor = "#ffdde1";
+  } 
+  else if (type === "maybe") {
+    msg = `🤔 Hey ${name}, we hope you can make it! 😊✨`;
+  } 
+  else {
+    msg = `😔 Oh no ${name}! You’ll be missed... If possible, try to join us 🙏💖`;
+  }
+
+  const box = document.getElementById("response");
+  box.innerText = msg;
+
+  box.style.transform = "scale(1.2)";
+  setTimeout(() => {
+    box.style.transform = "scale(1)";
+    document.body.style.backgroundColor = "";
+  }, 400);
+}
+</script>
+
+</body>
+</html>
