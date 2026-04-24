@@ -153,25 +153,42 @@ function updateCountdown() {
 }
 setInterval(updateCountdown, 1000);
 
-// RSVP Response
+// RSVP + SAVE TO GOOGLE SHEET
 function respond(type) {
-  const name = document.getElementById("name").value || "Dear Guest";
+  const name = document.getElementById("name").value || "Guest";
+
   let msg = "";
 
   if (type === "attending") {
-    msg = `🎉 Yay ${name}! We’re so excited to celebrate with you! ❤️💍`;
+    msg = `🎉 Yay ${name}! We’re excited to see you! ❤️`;
     document.body.style.backgroundColor = "#ffdde1";
   } 
   else if (type === "maybe") {
-    msg = `🤔 Hey ${name}, we hope you can make it! 😊✨`;
+    msg = `🤔 Hey ${name}, we hope you can make it! 😊`;
   } 
   else {
-    msg = `😔 Oh no ${name}! You’ll be missed... If possible, try to join us 🙏💖`;
+    msg = `😔 You’ll be missed ${name}!`;
   }
 
-  const box = document.getElementById("response");
-  box.innerText = msg;
+  document.getElementById("response").innerText = msg;
 
+  // SAVE DATA
+  fetch("https://script.google.com/macros/s/AKfycbwmtDjjEkA4tPW-8CpooD2yvuCBbZer0H8eI5P0BjcNpYf4JjHCJTCAXQYP0IaT_mLrPg/exec", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      name: name,
+      response: type
+    })
+  })
+  .then(res => res.text())
+  .then(data => console.log("Saved:", data))
+  .catch(err => console.error("Error:", err));
+
+  // Animation
+  const box = document.getElementById("response");
   box.style.transform = "scale(1.2)";
   setTimeout(() => {
     box.style.transform = "scale(1)";
